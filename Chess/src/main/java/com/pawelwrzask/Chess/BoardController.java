@@ -207,7 +207,9 @@ class BoardController {
     	Piece targetPointPieceTemp = board.getPiece(targetPoint);
     	Point startingPointOfPieceTemp = piece.getPosition();
     	//Temporarily simulate that piece was moved
-    	board.setPiece(targetPoint, piece); 
+    	board.removePiece(piece);
+    	board.setPiece(targetPoint, piece);
+    	
     	
     	//actual check
     	boolean check = isInCheck(king);
