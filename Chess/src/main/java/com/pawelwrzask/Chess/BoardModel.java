@@ -109,7 +109,7 @@ class BoardModel {
     }
     
     void promote(Piece pieceFrom, Piece pieceTo){
-    	movePieceTo(pieceFrom.getPosition().x,pieceFrom.getPosition().y, pieceTo);
+    	setPiece(pieceFrom.getPosition().x,pieceFrom.getPosition().y, pieceTo);
     }
 
 }
