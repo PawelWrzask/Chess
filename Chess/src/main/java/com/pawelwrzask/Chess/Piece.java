@@ -108,6 +108,13 @@ class Piece {
     Color getColor() {
         return color;
     }
+    
+    Color getOppositeColor(){
+		if(color==Color.WHITE) return Color.BLACK;
+		else{
+			return Color.WHITE;
+		}	
+	}
 
     Collection<Point> getPossibleMoves() {
         return type.directions;
@@ -181,6 +188,8 @@ class Piece {
 	public boolean isInPromotionRow() {
 		return this.y==0||this.y==7;
 	}
+	
+
 
 
 

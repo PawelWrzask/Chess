@@ -170,7 +170,7 @@ class BoardView {
     
     private Piece asciiToPiece(String ascii) {
         switch (ascii) {
-            case "♜" :
+            case "♜":
                 return new Piece(Piece.Type.ROOK, Piece.Color.BLACK);
             case "♞":
                 return new Piece(Piece.Type.KNIGHT, Piece.Color.BLACK);
@@ -251,5 +251,17 @@ class BoardView {
         	return new String[] {"♖","♘","♗","♕"};
 		}
 		return null;
+	}
+
+	public void gameOver(boolean draw, Piece winner) {
+		JLabel label;
+		if(draw){
+			label = new JLabel("DRAW",JLabel.CENTER);
+		}else{
+			label = new JLabel("<html><center>ʕ·͡ᴥ·ʔ<BR>WINNER<br> IS <br>"+PieceToAscii(winner)+"<br>"+winner.getColor()+"<br>!CONGRATULATIONS!</center></html>",JLabel.CENTER);
+		}
+		label.setFont(new Font("Arial", Font.BOLD, 40));
+		JOptionPane.showMessageDialog(gui,
+			    label,"GAME OVER",JOptionPane.DEFAULT_OPTION);
 	}
 }

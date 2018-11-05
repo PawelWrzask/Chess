@@ -23,13 +23,12 @@ class BoardController {
 
     BoardController() {
         isSelected = false;
-        board = new BoardModel();
         initialSetting();
 
     }
 
     private void initialSetting() {
-
+    	board = new BoardModel();
         Piece pieces[] = {
                 new Piece(Piece.Type.ROOK, Piece.Color.BLACK),
                 new Piece(Piece.Type.KNIGHT, Piece.Color.BLACK),
@@ -79,6 +78,7 @@ class BoardController {
             onSecondClick(x, y);
 
         view.updateView(board.getFields());
+        checkIfGameFinished();
     }
 
     private void onSecondClick(int x, int y) {
@@ -105,12 +105,37 @@ class BoardController {
             if(isAPawnPromotionMove(selectedPiece)){
             	board.promote(selectedPiece, view.askForPromotionPieceType(selectedPiece));
             }
+            
         }
 
         isSelected = false;
         view.resetHighlights();
     }
 
+    /**
+     * Game finishes when there is no possibility to move for the current player.
+     * It can be either a checkmate if the player's king is under attack or a draw.
+     * 
+     * This method iterates over all fields on the board checking if any of the current player
+     * piece has at least one possible move.
+     * @return
+     */
+	private void checkIfGameFinished() {
+		Piece currentPlayerPiece = null;
+    	for(int i=0 ; i<8 ; i++){
+        	for(int j=0 ; j<8 ; j++){
+        		Piece checkingPiece = board.getPiece(i,j);
+        		if(checkingPiece.isSameColorAs(lastMovedPiece)) continue;
+        		currentPlayerPiece = checkingPiece;
+        		Collection<Point> moves = generateValidMoves(checkingPiece,false,false);
+        		if(moves.size()>0) return;
+        	}
+    	}
+    	boolean draw = !isInCheck(board.getKingOf(currentPlayerPiece));
+    	view.gameOver(draw, board.getKingOf(lastMovedPiece));
+    	initialSetting();
+    	view.updateView(board.getFields());
+	}
 
 	private void onFirstClick(int x, int y) {
         if (!board.isEmpty(x, y)) {
