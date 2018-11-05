@@ -62,6 +62,8 @@ class BoardController {
         for (int i = 0; i < 8; i++) {
             board.setPiece(i % 8, 7, pieces[i + 8]);
         }
+        
+        lastMovedPiece = board.getPiece(0, 0);
     }
 
     void appendView(BoardView view) {
@@ -113,6 +115,8 @@ class BoardController {
 	private void onFirstClick(int x, int y) {
         if (!board.isEmpty(x, y)) {
             selectedPiece = board.getPiece(x, y);
+            //prevents the player from making two moves in a row.
+            if(lastMovedPiece.getColor()==selectedPiece.getColor()) return; 
             isSelected = true;
 
             validMoves = generateValidMoves(board.getPiece(x, y));
