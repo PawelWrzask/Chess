@@ -2,6 +2,9 @@ package com.pawelwrzask.Chess;
 
 
 import javax.swing.*;
+
+import com.pawelwrzask.Chess.Piece.Type;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -164,6 +167,38 @@ class BoardView {
         //s=String.valueOf(piece.getMoves());
         return s;
     }
+    
+    private Piece asciiToPiece(String ascii) {
+        switch (ascii) {
+            case "♜" :
+                return new Piece(Piece.Type.ROOK, Piece.Color.BLACK);
+            case "♞":
+                return new Piece(Piece.Type.KNIGHT, Piece.Color.BLACK);
+            case "♝":
+            	return new Piece(Piece.Type.BISHOP, Piece.Color.BLACK);
+            case "♛":
+            	return new Piece(Piece.Type.QUEEN, Piece.Color.BLACK);
+            case "♚":
+            	return new Piece(Piece.Type.KING, Piece.Color.BLACK);
+            case "♟":
+            	return new Piece(Piece.Type.BLACKPAWN, Piece.Color.BLACK);
+            case "♖":
+            	return new Piece(Piece.Type.ROOK, Piece.Color.WHITE);
+            case "♘":
+            	return new Piece(Piece.Type.KNIGHT, Piece.Color.WHITE);
+            case "♗":
+            	return new Piece(Piece.Type.BISHOP, Piece.Color.WHITE);
+            case "♕":
+            	return new Piece(Piece.Type.QUEEN, Piece.Color.WHITE);
+            case "♔":
+            	return new Piece(Piece.Type.KING, Piece.Color.WHITE);
+            case "♙":
+            	return new Piece(Piece.Type.WHITEPAWN, Piece.Color.WHITE);
+            default:
+                throw new IllegalArgumentException(ascii);
+        }
+
+    }
 
     void appendController(BoardController controller) {
         this.controller = controller;
@@ -190,4 +225,31 @@ class BoardView {
     void resetHighlights() {
         resetBackgrounds();
     }
+
+	public Piece askForPromotionPieceType(Piece piece) {
+		//Custom button text
+		String[] options = getPromotionPiecesFor(piece);
+
+		int index = JOptionPane.CLOSED_OPTION;
+		while(index == JOptionPane.CLOSED_OPTION){ // force user to pick some piece
+			index = JOptionPane.showOptionDialog(gui,
+				    "",
+				    "PROMOTION",
+				    JOptionPane.DEFAULT_OPTION,
+				    JOptionPane.PLAIN_MESSAGE,
+				    null,
+				    options,
+				    options[2]);
+		}
+		return asciiToPiece(options[index]);
+	}
+	public String[] getPromotionPiecesFor(Piece piece){
+		switch (piece.getColor()) {
+        case BLACK: 
+        	return new String[] {"♜","♞","♝","♛"};
+        case WHITE:
+        	return new String[] {"♖","♘","♗","♕"};
+		}
+		return null;
+	}
 }

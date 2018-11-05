@@ -177,6 +177,10 @@ class Piece {
 	public Point getPosition() {
 		return new Point(x,y);
 	}
+	
+	public boolean isInPromotionRow() {
+		return this.y==0||this.y==7;
+	}
 
 
 

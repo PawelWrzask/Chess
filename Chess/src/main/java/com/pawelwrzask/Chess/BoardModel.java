@@ -107,10 +107,9 @@ class BoardModel {
     boolean isMovingToTheRight(Piece piece, Point target){
     	return piece.getPosition().x < target.getX();
     }
-
-
     
-    
-
+    void promote(Piece pieceFrom, Piece pieceTo){
+    	movePieceTo(pieceFrom.getPosition().x,pieceFrom.getPosition().y, pieceTo);
+    }
 
 }

@@ -95,15 +95,22 @@ class BoardController {
             	//which should be moved to the middle point
             	board.movePieceTo(middlePoint, board.getEdgePieceTowardsTarget(selectedPiece, target));
             }
+
+
             board.movePieceTo(target, selectedPiece);
             lastMovedPiece = selectedPiece;
+            
+            if(isAPawnPromotionMove(selectedPiece)){
+            	board.promote(selectedPiece, view.askForPromotionPieceType(selectedPiece));
+            }
         }
 
         isSelected = false;
         view.resetHighlights();
     }
 
-    private void onFirstClick(int x, int y) {
+
+	private void onFirstClick(int x, int y) {
         if (!board.isEmpty(x, y)) {
             selectedPiece = board.getPiece(x, y);
             isSelected = true;
@@ -317,4 +324,8 @@ class BoardController {
         }
         return true;
     }
+
+    private boolean isAPawnPromotionMove(Piece piece) {
+		return piece.isPawn() && piece.isInPromotionRow();
+	}
 }
